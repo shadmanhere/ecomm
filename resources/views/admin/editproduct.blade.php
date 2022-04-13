@@ -29,7 +29,7 @@
             <!-- jquery validation -->
             <div class="card card-success">
               <div class="card-header">
-                <h3 class="card-title">Add product</h3>
+                <h3 class="card-title">Edit product</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->

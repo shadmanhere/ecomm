@@ -40,6 +40,11 @@ Route::get('/delete_category/{id}', [CategoryController::class, 'deleteCategory'
 Route::get('/addslider', [SliderController::class, 'addslider']);
 Route::get('/sliders', [SliderController::class, 'sliders']);
 Route::post('/saveslider', [SliderController::class, 'saveSlider']);
+Route::post('/updateslider', [SliderController::class, 'updateSlider']);
+Route::get('/edit_slider/{id}', [SliderController::class, 'editSlider']);
+Route::get('/delete_slider/{id}', [SliderController::class, 'deleteSlider']);
+Route::get('/activate_slider/{id}', [SliderController::class, 'activate_slider']);
+Route::get('/unactivate_slider/{id}', [SliderController::class, 'unactivate_slider']);
 
 Route::get('/addproduct', [ProductController::class, 'addproduct']);
 Route::get('/products', [ProductController::class, 'products']);
