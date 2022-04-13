@@ -31,23 +31,45 @@
               <div class="card-header">
                 <h3 class="card-title">Add slider</h3>
               </div>
+              @if (Session::has('status'))
+              <div class="alert alert-success">  
+                {{Session::get('status')}}
+              </div>
+              @endif
+              @if (count($errors) > 0)
+              <div class="alert alert-danger">  
+                <ul>
+                    @foreach ($errors->all() as $error)
+                      <li>{{$error}}</li>
+                    @endforeach
+                </ul>
+              </div>
+              @endif
               <!-- /.card-header -->
               <!-- form start -->
-              <form >
+              {{-- <form > --}}
+                {!!Form::open(['action' => 'App\Http\Controllers\SliderController@saveSlider','method' => 'POST', 'enctype' => 'multipart/form-data'])!!}
+                {{ csrf_field() }}
                 <div class="card-body">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Slider description 1</label>
-                    <input type="text" name="description1" class="form-control" id="exampleInputEmail1" placeholder="Enter slider description">
+                    {{-- <label for="exampleInputEmail1">Slider description 1</label> --}}
+                    {{Form::label('','Slider description 1', ['for' => 'exampleInputEmail1'])}}
+                    {{Form::text('description1','', ['class' => 'form-control', 'id' => 'exampleInputEmail1','placeholder'=> 'Enter slider description'])}}
+                    {{-- <input type="text" name="description1" class="form-control" id="exampleInputEmail1" placeholder="Enter slider description"> --}}
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Slider description 2</label>
-                    <input type="text" name="description2" class="form-control" id="exampleInputEmail1" placeholder="Enter slider description">
+                    {{-- <label for="exampleInputEmail1">Slider description 2</label> --}}
+                    {{Form::label('','Slider description 2', ['for' => 'exampleInputEmail1'])}}
+                    {{Form::text('description2','', ['class' => 'form-control', 'id' => 'exampleInputEmail1','placeholder'=> 'Enter slider description'])}}
+                    {{-- <input type="text" name="description2" class="form-control" id="exampleInputEmail1" placeholder="Enter slider description"> --}}
                   </div>
                   <label for="exampleInputFile">Slider image</label>
                   <div class="input-group">
                     <div class="custom-file">
-                      <input type="file" class="custom-file-input" id="exampleInputFile">
-                      <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                      {{-- <input type="file" class="custom-file-input" id="exampleInputFile"> --}}
+                      {{Form::file('slider_image',['class' => 'custom-file-input', 'id' => 'exampleInputFile'])}}
+                      {{Form::label('','Choose file', ['for' => 'exampleInputFile', 'class'=>'custom-file-label'])}}
+                      {{-- <label class="custom-file-label" for="exampleInputFile">Choose file</label> --}}
                     </div>
                     <div class="input-group-append">
                       <span class="input-group-text">Upload</span>
@@ -57,9 +79,11 @@
                 <!-- /.card-body -->
                 <div class="card-footer">
                   <!-- <button type="submit" class="btn btn-warning">Submit</button> -->
-                  <input type="submit" class="btn btn-warning" value="Save" >
+                  {{-- <input type="submit" class="btn btn-warning" value="Save" > --}}
+                  {{Form::submit('Save',['class' => 'btn btn-warning'])}}
                 </div>
-              </form>
+                {!!Form::close()!!}
+              {{-- </form> --}}
             </div>
             <!-- /.card --> 
             </div>
