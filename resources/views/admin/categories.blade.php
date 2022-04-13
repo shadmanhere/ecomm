@@ -98,7 +98,7 @@
 <script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
 <script src="plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 <!-- AdminLTE App -->
-<script src="dist/js/adminlte.min.js"></script>
+{{-- <script src="dist/js/adminlte.min.js"></script> --}}
 
 <script src="dist/js/bootbox.min.js"></script>
 <!-- page script -->

@@ -44,7 +44,10 @@ Route::get('/addproduct', [ProductController::class, 'addproduct']);
 Route::get('/products', [ProductController::class, 'products']);
 Route::post('/saveProduct', [ProductController::class, 'saveProduct']);
 Route::post('/updateproduct', [ProductController::class, 'updateProduct']);
+Route::get('/delete_product/{id}', [ProductController::class, 'deleteProduct']);
 Route::get('/edit_product/{id}', [ProductController::class, 'edit_product']);
+Route::get('/activate_product/{id}', [ProductController::class, 'activate_product']);
+Route::get('/unactivate_product/{id}', [ProductController::class, 'unactivate_product']);
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth'])->name('dashboard');
