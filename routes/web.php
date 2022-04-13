@@ -43,6 +43,8 @@ Route::get('/sliders', [SliderController::class, 'sliders']);
 Route::get('/addproduct', [ProductController::class, 'addproduct']);
 Route::get('/products', [ProductController::class, 'products']);
 Route::post('/saveProduct', [ProductController::class, 'saveProduct']);
+Route::post('/updateproduct', [ProductController::class, 'updateProduct']);
+Route::get('/edit_product/{id}', [ProductController::class, 'edit_product']);
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth'])->name('dashboard');
