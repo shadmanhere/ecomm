@@ -22,9 +22,9 @@
     		<div class="row justify-content-center">
     			<div class="col-md-10 mb-5 text-center">
     				<ul class="product-category">
-    					<li><a href="javascript:void(0)" class="active">All</a></li>
+    					<li><a href="{{url('/shop')}}" class="{{request()->is('shop') ? 'active' : ''}}">All</a></li>
 						@foreach ($categories as $category)
-							<li><a href="javascript:void(0)">{{$category->category_name}}</a></li>
+							<li><a class="{{request()->is('view_product_by_category/'.$category->category_name) ? 'active' : ''}}" href="{{url('/view_product_by_category/'.$category->category_name)}}">{{$category->category_name}}</a></li>
 						@endforeach
     					{{-- <li><a href="javascript:void(0)">Vegetables</a></li>
     					<li><a href="javascript:void(0)">Fruits</a></li>
@@ -35,34 +35,34 @@
     		</div>
     		<div class="row">
 				@foreach ( $products as $product)
-				<div class="col-md-6 col-lg-3 ftco-animate">
-    				<div class="product">
-    					<a href="javascript:void(0)" class="img-prod"><img class="img-fluid" src="/storage/product_images/{{$product->product_image}}" alt="Colorlib Template">
-    						<div class="overlay"></div>
-    					</a>
-    					<div class="text py-3 pb-4 px-3 text-center">
-    						<h3><a href="javascript:void(0)">{{$product->product_name}}</a></h3>
-    						<div class="d-flex">
-    							<div class="pricing">
-		    						<p class="price"><span>$ {{$product->product_price}}</span></p>
-		    					</div>
-	    					</div>
-    						<div class="bottom-area d-flex px-3">
-	    						<div class="m-auto d-flex">
-	    							<a href="javascript:void(0)" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-	    								<span><i class="ion-ios-menu"></i></span>
-	    							</a>
-	    							<a href="javascript:void(0)" class="buy-now d-flex justify-content-center align-items-center mx-1">
-	    								<span><i class="ion-ios-cart"></i></span>
-	    							</a>
-	    							<a href="javascript:void(0)" class="heart d-flex justify-content-center align-items-center ">
-	    								<span><i class="ion-ios-heart"></i></span>
-	    							</a>
-    							</div>
-    						</div>
-    					</div>
-    				</div>
-				</div>
+					<div class="col-md-6 col-lg-3 ftco-animate">
+						<div class="product">
+							<a href="javascript:void(0)" class="img-prod"><img class="img-fluid" src="/storage/product_images/{{$product->product_image}}" alt="Colorlib Template">
+								<div class="overlay"></div>
+							</a>
+							<div class="text py-3 pb-4 px-3 text-center">
+								<h3><a href="javascript:void(0)">{{$product->product_name}}</a></h3>
+								<div class="d-flex">
+									<div class="pricing">
+										<p class="price"><span>$ {{$product->product_price}}</span></p>
+									</div>
+								</div>
+								<div class="bottom-area d-flex px-3">
+									<div class="m-auto d-flex">
+										<a href="javascript:void(0)" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+											<span><i class="ion-ios-menu"></i></span>
+										</a>
+										<a href="javascript:void(0)" class="buy-now d-flex justify-content-center align-items-center mx-1">
+											<span><i class="ion-ios-cart"></i></span>
+										</a>
+										<a href="javascript:void(0)" class="heart d-flex justify-content-center align-items-center ">
+											<span><i class="ion-ios-heart"></i></span>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				@endforeach
     			{{-- <div class="col-md-6 col-lg-3 ftco-animate">
     				<div class="product">
