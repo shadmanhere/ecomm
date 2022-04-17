@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Session;
 use App\Models\Slider;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Client;
 use App\Cart;
 
 class ClientController extends Controller
@@ -22,10 +23,6 @@ class ClientController extends Controller
         $categories = Category::All();
         $products = Product::All()->where('status', 1);
         return view('client.shop')->with('categories',$categories)->with('products',$products);
-    }
-
-    public function checkout(){
-        return view('client.checkout');
     }
 
     public function addtocart($id){
@@ -76,12 +73,31 @@ class ClientController extends Controller
         return view('client.cart',['products' => $cart->items]);
     }
 
+    public function checkout(){
+        if(!Session::has('client')){
+            return redirect('/login');
+        }
+        return view('client.checkout');
+    }
+
     public function login(){
         return view('client.login');
     }
 
     public function signup(){
         return view('client.signup');
+    }
+
+    public function create_account(Request $request){
+        $this->validate($request, ['email' => 'email|required|unique:clients', 
+                                    'password' => 'required|min:4' ]);
+        $client = new Client();
+        $client->email = $request->input('email');
+        $client->password = bcrypt($request->input('password'));
+
+        $client->save();
+
+        return redirect('/login')->with('status', 'Your account has been successfully created !!');
     }
 
     public function orders(){

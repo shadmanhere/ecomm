@@ -27,6 +27,7 @@ Route::get('/remove_from_cart/{id}', [ClientController::class, 'remove_from_cart
 Route::get('/cart', [ClientController::class, 'cart']);
 Route::get('/login', [ClientController::class, 'login']);
 Route::get('/signup', [ClientController::class, 'signup']);
+Route::post('/create_account', [ClientController::class, 'create_account']);
 Route::get('/orders', [ClientController::class, 'orders']);
 
 // admin routes
