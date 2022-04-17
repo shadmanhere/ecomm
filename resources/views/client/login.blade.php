@@ -33,7 +33,8 @@
 	<div class="limiter">
 		<div class="container-login100" style="background-image: url('images/bg-01.jpg');">
 			<div class="wrap-login100">
-				<form class="login100-form validate-form">
+				<form class="login100-form validate-form" action="{{url('/access_account')}}" method="POST">
+					{{ csrf_field() }}
 					<a href="{{url('/')}}">
                         <span class="login100-form-logo">
 						    <i class="zmdi zmdi-landscape"></i>
@@ -57,14 +58,19 @@
 							{{Session::get('status')}}
 						</div>
 					@endif
+					@if(Session::has('status-error'))
+						<div class="alert alert-danger">
+							{{Session::get('status-error')}}
+						</div>
+					@endif
 
-					<div class="wrap-input100 validate-input" data-validate = "Enter username">
-						<input class="input100" type="text" name="username" placeholder="Username">
+					<div class="wrap-input100 validate-input" data-validate = "Enter email">
+						<input class="input100" type="email" name="email" placeholder="Email">
 						<span class="focus-input100" data-placeholder="&#xf207;"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="Enter password">
-						<input class="input100" type="password" name="pass" placeholder="Password">
+						<input class="input100" type="password" name="password" placeholder="Password">
 						<span class="focus-input100" data-placeholder="&#xf191;"></span>
 					</div>
 
@@ -76,7 +82,7 @@
 					</div>
 
 					<div class="container-login100-form-btn">
-						<button class="login100-form-btn">
+						<button type="submit" class="login100-form-btn">
 							Login
 						</button>
 					</div>

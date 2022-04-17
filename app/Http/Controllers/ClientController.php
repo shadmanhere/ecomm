@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Hash;
 use App\Models\Slider;
 use App\Models\Product;
 use App\Models\Category;
@@ -84,6 +85,11 @@ class ClientController extends Controller
         return view('client.login');
     }
 
+    public function logout(){
+        Session::forget('client');
+        return back();
+    }
+
     public function signup(){
         return view('client.signup');
     }
@@ -98,6 +104,24 @@ class ClientController extends Controller
         $client->save();
 
         return redirect('/login')->with('status', 'Your account has been successfully created !!');
+    }
+
+    public function access_account(Request $request){
+        $this->validate($request, ['email' => 'email|required', 
+                                    'password' => 'required' ]);
+        $client = Client::where('email', $request->input('email'))->first();
+        if($client){
+            if(Hash::check($request->input('password'), $client->password)){
+                Session::put('client', $client);
+                return redirect('/shop');
+            } else {
+                // if password is wrong
+                return back()->with('status-error', 'Wrong email or passowrd');
+            }
+        } else {
+            // if email is not registered
+            return back()->with('status-error', 'Wrong email or passowrd');
+        }
     }
 
     public function orders(){
