@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Models\Order;
-use App;
+use Illuminate\Support\Facades\App;
 use Exception;
 
 class PdfController extends Controller
