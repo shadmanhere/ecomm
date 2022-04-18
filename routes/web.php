@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PdfController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +33,8 @@ Route::post('/access_account', [ClientController::class, 'access_account']);
 Route::get('/logout', [ClientController::class, 'logout']);
 Route::post('/postcheckout', [ClientController::class, 'postcheckout']);
 Route::get('/orders', [ClientController::class, 'orders']);
+
+Route::get('/viewpdforder/{id}', [PdfController::class, 'view_pdf']);
 
 // admin routes
 Route::get('/admin', [AdminController::class, 'admin']);

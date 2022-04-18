@@ -60,7 +60,7 @@
                           {{-- {{$order->cart}} --}}
                         </td>
                         <td>
-                          <a href="javascript:void(0);" class="btn btn-primary"><i class="nav-icon fas fa-eye"></i></a>
+                          <a href="{{url('/viewpdforder/'.$order->id)}}" class="btn btn-primary"><i class="nav-icon fas fa-eye"></i></a>
                         </td>
                       </tr>
                     @endforeach
