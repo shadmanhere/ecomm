@@ -30,6 +30,7 @@ Route::get('/signup', [ClientController::class, 'signup']);
 Route::post('/create_account', [ClientController::class, 'create_account']);
 Route::post('/access_account', [ClientController::class, 'access_account']);
 Route::get('/logout', [ClientController::class, 'logout']);
+Route::post('/postcheckout', [ClientController::class, 'postcheckout']);
 Route::get('/orders', [ClientController::class, 'orders']);
 
 // admin routes

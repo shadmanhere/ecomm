@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Slider;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Order;
 use App\Models\Client;
 use App\Cart;
 
@@ -78,6 +79,9 @@ class ClientController extends Controller
         if(!Session::has('client')){
             return redirect('/login');
         }
+        if(!Session::has('cart')){
+            return redirect('/cart');
+        }
         return view('client.checkout');
     }
 
@@ -124,7 +128,30 @@ class ClientController extends Controller
         }
     }
 
+    public function postcheckout(Request $request){
+        
+        $oldCart = Session::has('cart')? Session::get('cart'):null;
+        $cart = new Cart($oldCart);
+
+        $order = new Order();
+        $order->name = $request->input('name');
+        $order->address = $request->input('address');
+        $order->cart = serialize($cart);
+
+        $order->save();
+
+        Session::forget('cart');
+        return redirect('/cart')->with('status', 'Your purchase has been successfully accomplished !!!');
+    }
+
     public function orders(){
-        return view('admin.orders');
+        $orders = Order::All();
+
+        $orders->transform(function($order, $key){
+            $order->cart = unserialize($order->cart);
+            return $order;
+        });
+
+        return view('admin.orders')->with('orders', $orders);
     }
 }
