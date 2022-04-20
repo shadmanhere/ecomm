@@ -20,6 +20,15 @@
     <section class="ftco-section">
       <div class="container">
         <div class="row justify-content-center">
+			{{-- @if (count($errors) > 0)
+              <div class="alert alert-danger">  
+                <ul>
+                    @foreach ($errors->all() as $error)
+                      <li>{{$error}}</li>
+                    @endforeach
+                </ul>
+              </div>
+              @endif --}}
           <div class="col-xl-7 ftco-animate">
 				<form action="{{url('/postcheckout')}}" method="POST" class="billing-form">
 					{{ csrf_field() }}

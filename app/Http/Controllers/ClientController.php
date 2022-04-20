@@ -13,6 +13,7 @@ use App\Models\Category;
 use App\Models\Order;
 use App\Models\Client;
 use App\Cart;
+use Srmklive\PayPal\Services\ExpressCheckout;
 
 class ClientController extends Controller
 {
@@ -131,33 +132,94 @@ class ClientController extends Controller
     }
 
     public function postcheckout(Request $request){
-        
+       
+        try {
+            $oldCart = Session::has('cart')? Session::get('cart'):null;
+            $cart = new Cart($oldCart);
+
+            $payer_id = time();
+
+            $order = new Order();
+            $order->name = $request->input('name');
+            $order->address = $request->input('address');
+            $order->cart = serialize($cart);
+            // $order->payer_id = $payer_id;
+
+            Session::put('order', $order);
+
+            $checkoutData = $this->checkoutData();
+            $provider = new ExpressCheckout();
+            $response = $provider->setExpressCheckout($checkoutData);
+            return redirect($response['paypal_link']);
+
+        } catch (\Exception $e) {
+            return redirect('/checkout')->with('errors', $e->getMessage());
+        }
+    }
+
+    private function checkoutData(){
         $oldCart = Session::has('cart')? Session::get('cart'):null;
         $cart = new Cart($oldCart);
+        $data['items'] = [];
+        foreach($cart->items as $item){
+            $itemDetails=[
+                'name' => $item['product_name'],
+                'price' => $item['product_price'],
+                'qty' => $item['qty']
+            ];
 
-        $payer_id = time();
+            $data['items'][] = $itemDetails;
+        }
 
-        $order = new Order();
-        $order->name = $request->input('name');
-        $order->address = $request->input('address');
-        $order->cart = serialize($cart);
-        $order->payer_id = $payer_id;
+        $checkoutData = [
+            'items' => $data['items'],
+            'return_url' => url('/payment-success'),
+            'cancel_url' => url('/checkout'),
+            'invoice_id' => uniqid(),
+            'invoice_description' => "order description",
+            'total' => Session::get('cart')->totalPrice
+        ];
 
-        $order->save();
+        return $checkoutData;
+    }
 
-        Session::forget('cart');
+    public function payment_success(Request $request){
+        try{
+            $token = $request->get('token');
+            $payerId = $request->get('payerId');
+            $checkoutData = $this->checkoutData();
 
-        $orders = Order::where('payer_id',$payer_id)->get();
+            $provider = new ExpressCheckout();
+            $response = $provider->getExpressCheckoutDetails($token);
+            $response = $provider->doExpressCheckoutPayment($checkoutData, $token, $payerId);
 
-        $orders->transform(function($order, $key){
-            $order->cart = unserialize($order->cart);
-            return $order;
-        });
+            $payer_id = $payerId.'_'.time();
 
-        $email = Session::get('client')->email;
-        Mail::to($email)->send(new SendMail($orders));
+            Session::get('order')->payer_id = $payer_id;
+            Session::get('order')->save();
+            
+            // $order->save();
 
-        return redirect('/cart')->with('status', 'Your purchase has been successfully accomplished !!!');
+           
+
+            $orders = Order::where('payer_id',$payer_id)->get();
+
+            $orders->transform(function($order, $key){
+                $order->cart = unserialize($order->cart);
+                return $order;
+            });
+
+            $email = Session::get('client')->email;
+            Mail::to($email)->send(new SendMail($orders));
+
+            Session::forget('cart');
+
+            return redirect('/cart')->with('status', 'Your purchase has been successfully accomplished !!!');
+
+            // return redirect('/cart')->with('status', 'Your purchase has been processed successfully');
+        } catch (\Exception $e){
+            return redirect('/checkout')->with('error', $e->getMessage());
+        }
     }
 
     public function orders(){

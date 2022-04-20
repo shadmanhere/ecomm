@@ -32,6 +32,7 @@ Route::post('/create_account', [ClientController::class, 'create_account']);
 Route::post('/access_account', [ClientController::class, 'access_account']);
 Route::get('/logout', [ClientController::class, 'logout']);
 Route::post('/postcheckout', [ClientController::class, 'postcheckout']);
+Route::get('/payment-success', [ClientController::class, 'payment_success']);
 Route::get('/orders', [ClientController::class, 'orders']);
 
 Route::get('/viewpdforder/{id}', [PdfController::class, 'view_pdf']);
